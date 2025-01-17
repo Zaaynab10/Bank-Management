@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.banniere-acceuil{
+    align-items: center;
+    margin: 5vh;
+    /* border;  */
+    border-radius: 25px;
+}
+.solde-accueil {
+    height: 40vh;
+    position: relative;
+    /* border-radius: 25px; */
+    /* background: rgb(255, 255, 255); */
+    /* background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(57, 213, 244, 1) 90%); */
+}
+
+.solde-accueil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-radius: 25px;
+    /* position: absolute; */
+    /* top: 0;
+    bottom: 0; */
+}
+
+.text-banniere {
+    /* font-size: 80px; */
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-evenly;
+    position: absolute;
+    align-items: center;
+    margin-top: 5vh;
+    width: 100%;
+}
+
+.text-banniere p {
+    padding: 5px 20px;
+    font-size: 64px;
+}
+
+/* .text-banniere-p{
+    padding: 20px;
+    gap: 50px;
+    max-width: 50%;
+    font-size: 40px;
+}
+.text-banniere-solde {
+    font-size: 100px;
+
+} */
+
+.boutons-banniere {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 5%;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.boutons-banniere button {
+    background-color: rgba(8, 8, 8, 0.22);
+    padding: 10px 35px;
+    border: 2px solid rgba(206, 210, 241, 1);
+    border-radius: 30px;
+    transition: 0.3s ease-in-out;
+    color: white;
+}
+
+.boutons-banniere button:hover {
+    cursor: pointer;
+    background-color: rgba(206, 210, 241, 0.488)
+}
+
+main {
+    margin: 20px;
+    display: flex;
+}
+
+.bloc {
+    /* background-color: rgba(255, 255, 255, 0.46); */
+    background-color: rgba(217, 217, 217, 1);
+    width: 300px;
+    height: 400px;
+    border-radius: 25px;
+    border: 3px solid rgba(255, 255, 255, 0.991);
+    position: relative;
+    margin: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+main div h2 {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Centre horizontalement */
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 25px;
+    border: 3px solid rgba(217, 217, 217, 1);
+    padding: 10px 50px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: rgba(206, 210, 241, 1);
+    /* font-weight: bold; */
+    z-index: 1;
+}
+.liste-transactions {
+    margin-top: 60px; 
+    padding: 0 15px; 
+    list-style: none; 
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.liste-transactions li {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-montant {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.transaction-montant.negative {
+    color: red; 
+}
+
+.transaction-montant.positive {
+    color: green; 
+}

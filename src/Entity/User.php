@@ -21,6 +21,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $lastName = null;
+
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -49,6 +55,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
+    }
+
+    public function getFirstName(): ?string{
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self{
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    public function getLastName(): ?string{
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self{
+        $this->lastName = $lastName;
+        return $this;
     }
 
     public function getPhone(): ?string {

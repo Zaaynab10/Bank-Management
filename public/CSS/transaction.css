@@ -1,0 +1,38 @@
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 20px; */
+}
+
+.left-section {
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.right-section {
+    width: 65%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.transactions {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-btn {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

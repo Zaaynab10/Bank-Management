@@ -1,19 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Sign Up
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+	<div
+		class="register-page">
+		<!-- Video Background -->
+		<video autoplay loop muted playsinline class="background-video">
+			<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
 
-    {{ form_errors(registrationForm) }}
+		<!-- Logo -->
+		<div class="logo">
+			<a href="#">
+				<img src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
+			</a>
+		</div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+		<!-- Dark Mode Switch -->
+		<div class="dark-mode-switch">
+			<img id="themeIcon" src="{{ asset('images/sun.svg') }}" alt="Theme Icon"/>
+		</div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+		<!-- Title -->
+		<h1 class="welcome-title">Welcome, Create Your Account</h1>
+
+		<!-- Registration Form -->
+		{{ form_start(registrationForm, { 'attr': { 'class': 'register-form' } }) }}
+		{{ form_row(registrationForm.firstName, { 'label': 'First Name' }) }}
+		{{ form_row(registrationForm.lastName, { 'label': 'Last Name' }) }}
+		{{ form_row(registrationForm.email, { 'label': 'Email' }) }}
+		{{ form_row(registrationForm.plainPassword, { 'label': 'Password' }) }}
+		{{ form_row(registrationForm.phone, { 'label': 'Phone Number' }) }}
+
+		<button class="btn btn-green" type="submit">
+			<img src="{{ asset('images/arrow-circle-right.svg') }}" alt="Right Arrow">
+		</button>
+		{{ form_end(registrationForm) }}
+
+		<!-- Footer Links -->
+		<div class="footer-links">
+			<a href="{{ path('app_login') }}">Already have an account? Log in</a>
+		</div>
+		<div class="footer-links">
+			<a href="#">Terms of Use</a>
+			|
+			<a href="#">Privacy Policy</a>
+		</div>
+	</div>
 {% endblock %}
