@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+          <link rel="stylesheet" href="{{ asset('css/transaction.css') }}">
+		{% block body %}
+
+			<header>
+				<nav>
+					<a href="/user/home"><h1>VOTRE ESPACE PERSONNEL</h1></a>
+					<div>
+						<a href="">Se deconnecter</a>
+						<img src="" alt="Photo de profil"></div>
+				</nav>
+			</header>
+            <div class="main-content">
+    <div class="left-section">
+        <h2>Solde du Compte : <span id="account-balance">0.00 €</span></h2>
+        <button id="change-account">Changer de compte</button>
+        <div class="alerts">
+            <h3>Vigilances</h3>
+            <p>Aucune alerte pour l'instant.</p>
+        </div>
+        <div class="shortcuts">
+            <button>Faire un virement</button>
+            <button>Télécharger l'historique</button>
+        </div>
+    </div>
+    <div class="right-section">
+        <div class="transactions">
+            <h3>Transactions</h3>
+            <ul id="transaction-list"></ul>
+        </div>
+        <div class="pagination">
+            <button class="page-btn" data-page="1">1</button>
+            <button class="page-btn" data-page="2">2</button>
+            <button class="page-btn" data-page="3">3</button>
+        </div>
+    </div>
+</div>
+		{% endblock %}
+	</head>
+</html>
