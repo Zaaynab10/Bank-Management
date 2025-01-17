@@ -3,8 +3,6 @@ namespace App\Enum;
 
 enum TransactionStatus: string
 {
-    case PENDING = 'pending';
-    case COMPLETED = 'completed';
-    case CANCELLED = 'cancelled';
+    case SUCCESSED = 'successed';
     case FAILED = 'failed';
 }
