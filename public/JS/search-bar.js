@@ -1,0 +1,55 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBar = document.querySelector('.search-bar input');
+    const userListContainer = document.getElementById('userResults');
+    const body = document.body;
+
+    if (searchBar) {
+        searchBar.addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+
+            try {
+                const response = await fetch(`/admin/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des données.');
+                }
+
+                const users = await response.json();
+                updateUserList(users);
+            } catch (error) {
+                console.error('Une erreur est survenue :', error);
+                userListContainer.innerHTML = '<p class="error-message">Erreur lors de la recherche, veuillez réessayer.</p>';
+            }
+        });
+    }
+
+    function updateUserList(users) {
+        userListContainer.innerHTML = ''; // Efface les anciens résultats
+
+        if (users.length === 0) {
+            userListContainer.innerHTML = '<p class="no-results">Aucun utilisateur trouvé.</p>';
+            return;
+        }
+
+        users.forEach(user => {
+            const userCard = document.createElement('div');
+            userCard.classList.add('user-card');
+            userCard.innerHTML = `
+                <a href="/admin/user/${user.id}" class="user-link">
+                    <img src="${user.profilePicture}" alt="${user.firstName} ${user.lastName}" class="user-avatar">
+                    <div class="user-info">
+                        <h3>${user.firstName} ${user.lastName}</h3>
+                        <p>${user.email}</p>
+                    </div>
+                </a>
+            `;
+            userListContainer.appendChild(userCard);
+        });
+
+        // Appliquer la classe dark-mode si activée
+        if (body.classList.contains('dark-mode')) {
+            userListContainer.classList.add('dark-mode');
+        } else {
+            userListContainer.classList.remove('dark-mode');
+        }
+    }
+});
