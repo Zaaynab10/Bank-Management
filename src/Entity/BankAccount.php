@@ -140,6 +140,15 @@ class BankAccount
     return ($this->balance - $amount >= 0);
 }
 
+public function canDeposit(float $amount): bool
+{
+    if ($this->type === BankAccountType::SAVINGS) {
+        return ($this->balance + $amount <= 25000);
+    }
+
+    return true; }
+    
+
     public function removeTransactionsIssued(Transaction $transactionsIssued): static
     {
         if ($this->transactions_issued->removeElement($transactionsIssued)) {

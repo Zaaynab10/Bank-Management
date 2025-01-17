@@ -45,11 +45,12 @@ final class TransactionsController extends AbstractController
             if (!$bankAccount || $bankAccount->getOwner() !== $user) {
                 throw $this->createAccessDeniedException('You do not own this account.');
             }
-            
-            if (!$bankAccount->canWithdraw($amount)) {
-                throw $this->createAccessDeniedException('Insufficient funds.');
+
+          
+            if (!$bankAccount->canDeposit($amount)) {
+                throw $this->createAccessDeniedException('Deposit denied, the deposit limit is 25,000.');
             }
-            
+         
 
             $transaction->setAmount($amount);
             $transaction->setType(TransactionType::DEPOSIT); 
@@ -175,9 +176,10 @@ final class TransactionsController extends AbstractController
                 throw $this->createAccessDeniedException('You do not own the source account.');
             }
     
-            if (!$sourceAccount->canWithdraw($amount)) {
-                throw $this->createAccessDeniedException('Insufficient funds.');
+            if (!$destinationAccount->canDeposit($amount)) {
+                throw $this->createAccessDeniedException('Transfer denied: the savings account has exceeded its deposit limit of 25,000.');
             }
+           
             
     
             $transaction->setAmount($amount);
@@ -215,13 +217,13 @@ final class TransactionsController extends AbstractController
         $user = $this->getUser();
         
         if (!$user) {
-            throw $this->createAccessDeniedException("Vous devez être connecté pour voir vos transactions.");
+            throw $this->createAccessDeniedException("You must be logged in to view your transactions.");
         }
     
         $bankAccount = $bankAccountRepository->findOneBy(['id' => $accountId, 'owner' => $user]);
     
         if (!$bankAccount) {
-            throw $this->createNotFoundException("Compte bancaire introuvable ou non autorisé.");
+            throw $this->createNotFoundException("Bank account not found or not authorized.");
         }
     
         $transactionsSource = $transactionRepository->findBy([
