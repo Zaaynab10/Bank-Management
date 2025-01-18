@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class UserController extends AbstractController{
-    #[Route('/user', name: 'app_user')]
+    #[Route('/user', name: 'customer_dashboard')]
     public function index(): Response
     {
         return $this->render('user/index.html.twig', [

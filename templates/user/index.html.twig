@@ -8,12 +8,14 @@
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link rel="stylesheet" href="{{ asset('css/home_user.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/header.css') }}">
 		{% block body %}
 
 			<header>
 				<nav>
-					<a href="/user/home"><h1>VOTRE ESPACE PERSONNEL</h1></a>
+					<a href="/user">
+						<h1>VOTRE ESPACE PERSONNEL</h1>
+					</a>
 					<div>
 						<a href="">Se deconnecter</a>
 						<img src="" alt="Photo de profil"></div>
@@ -35,13 +37,19 @@
 							<button>RECEVOIR</button>
 						</div>
 					</div>
-					<img src="{{ asset('images/photo-banniere.png') }}" alt="image-de-fond">
+					<video autoplay loop muted playsinline class="background-video">
+						<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+					{# <img src="{{ asset('images/photo-banniere.png') }}" alt="image-de-fond"> #}
 				</div>
 			</section>
 			<main>
 				<div class="bloc">
 					<div class="titre-bloc">
-						<a href="/user/transactions"><h2>Dernières transactions</h2></a>
+						<a href="user/transactions/{bankAccountId}">
+							<h2>Dernières transactions</h2>
+						</a>
 					</div>
 					<ul class="liste-transactions">
 						{% if transactions is defined and transactions is not empty %}
@@ -87,27 +95,29 @@
 					{% endif %}
 				</ul>
 			</div>
-			<div class="bloc">
-				<div class="titre-bloc">
-					<h2>Mes contacts</h2>
-				</div>
-				<div class="contact-info">
-					<p>
-						<strong>Conseiller :</strong>
-						{{ advisor.name }}</p>
-					<p>
-						<strong>Email :</strong>
-						<a href="mailto:{{ advisor.email }}">{{ advisor.email }}</a>
-					</p>
-					<p>
-						<strong>Téléphone :</strong>
-						<a href="tel:{{ advisor.phone }}">{{ advisor.phone }}</a>
-					</p>
-					<p>
-						<strong>Agence :</strong>
-						{{ advisor.agency }}</p>
-				</div>
-			</div>
 		</head>
 	</html>
-</main>{% endblock %}</head></html>
+</div>
+<div class="bloc">
+	<div class="titre-bloc">
+		<h2>Mes contacts</h2>
+	</div>
+	<div class="contact-info">
+		<p>
+			<strong>Conseiller :</strong>
+			John Doe
+		</p>
+		<p>
+			<strong>Email :</strong>
+			<a href="mailto:johndoe@example.com">johndoe@example.com</a>
+		</p>
+		<p>
+			<strong>Téléphone :</strong>
+			<a href="tel:+1234567890">+1 234 567 890</a>
+		</p>
+		<p>
+			<strong>Agence :</strong>
+			Agence Centrale
+		</p>
+	</div>
+</div></head></html></main>{% endblock %}</head></html>
