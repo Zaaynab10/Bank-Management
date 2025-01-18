@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfer Funds{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2>Transfer Funds</h2>
+
+        {{ form_start(form) }}
+
+        <div class="mb-3">
+            {{ form_label(form.amount, 'Amount') }}
+            {{ form_widget(form.amount, {'attr': {'class': 'form-control', 'min': '1'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.source_account, 'Source Account') }}
+            {{ form_widget(form.source_account, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.destination_account_number, 'Destination Account Number') }}
+            {{ form_widget(form.destination_account_number, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Transfer</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

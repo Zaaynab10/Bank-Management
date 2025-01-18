@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +62,38 @@
     </div>
 </div>
 
+=======
+{% extends 'base.html.twig' %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block body %}
+    <h1>Transactions de votre compte {{ bankAccount.id }}</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type de Transaction</th>
+                <th>Montant</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.type.value }}</td> 
+                    <td>{{ transaction.amount }}</td> 
+                    <td>{{ transaction.status.value }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune transaction trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+>>>>>>> e97728da3847fdedb6e0a3e193a2ee3173b6a664
 {% endblock %}
 </body>
 </html>

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deposit{% endblock %}
+
+{% block body %}
+    <h1>Deposit Funds</h1>
+
+    <form method="post">
+        {{ form_start(form) }}
+
+        <div>
+            {{ form_label(form.bankAccount) }}
+            {{ form_widget(form.bankAccount) }}
+        </div>
+
+        <div>
+            {{ form_label(form.amount) }}
+            {{ form_widget(form.amount) }}
+        </div>
+
+        <button type="submit">Deposit</button>
+
+        {{ form_end(form) }}
+    </form>
+
+    <br>
+
+{% endblock %}
