@@ -39,7 +39,7 @@ final class BankAccountController extends AbstractController
     }
 
     #[Route('/bank/accounts/create', name: 'app_create_bank_account')]
-    public function CreateAccount(Request $request, EntityManagerInterface $entityManager, BankAccountRepository $bankAccountRepository): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, BankAccountRepository $bankAccountRepository): Response
     {
         $bankAccounts = $bankAccountRepository->findBy(['owner' => $this->getUser()]);
         if (count($bankAccounts) >= 5) {
@@ -80,7 +80,7 @@ final class BankAccountController extends AbstractController
         ]);
     }
 
-    private function HasValidCurrentAccount(array $bankAccounts): bool
+    private function hasValidCurrentAccount(array $bankAccounts): bool
     {
         foreach ($bankAccounts as $account) {
             if ($account->getType() === BankAccountType::CURRENT && $account->getBalance() >= 10) {

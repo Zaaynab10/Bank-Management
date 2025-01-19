@@ -33,44 +33,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $phone = null;
 
-    /**
-     * @var list<string> The user roles
-     */
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, BankAccount>
-     */
     #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'owner')]
     private Collection $bankAccounts;
-
 
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
     }
 
-    public function getFirstName(): ?string{
+    public function getFirstName(): ?string {
         return $this->firstName;
     }
 
-    public function setFirstName(?string $firstName): self{
+    public function setFirstName(?string $firstName): self {
         $this->firstName = $firstName;
         return $this;
     }
 
-    public function getLastName(): ?string{
+    public function getLastName(): ?string {
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): self{
+    public function setLastName(?string $lastName): self {
         $this->lastName = $lastName;
         return $this;
     }
@@ -83,106 +73,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = $phone;
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(string $email): static
-    {
+    public function setEmail(string $email): static {
         $this->email = $email;
-
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
+    public function getUserIdentifier(): string {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
-    public function getRoles(): array
-    {
+    public function getRoles(): array {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
-    {
+    public function setRoles(array $roles): static {
         $this->roles = $roles;
-
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
+    public function getPassword(): ?string {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
-    {
+    public function setPassword(string $password): static {
         $this->password = $password;
-
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+    public function eraseCredentials(): void {}
 
-    /**
-     * @return Collection<int, BankAccount>
-     */
-    public function getBankAccounts(): Collection
-    {
+    public function getBankAccounts(): Collection {
         return $this->bankAccounts;
     }
 
-    public function addBankAccount(BankAccount $bankAccount): static
-    {
+    public function addBankAccount(BankAccount $bankAccount): static {
         if (!$this->bankAccounts->contains($bankAccount)) {
             $this->bankAccounts->add($bankAccount);
             $bankAccount->setOwner($this);
         }
-
         return $this;
     }
 
-    public function removeBankAccount(BankAccount $bankAccount): static
-    {
+    public function removeBankAccount(BankAccount $bankAccount): static {
         if ($this->bankAccounts->removeElement($bankAccount)) {
-            // set the owning side to null (unless already changed)
             if ($bankAccount->getOwner() === $this) {
                 $bankAccount->setOwner(null);
             }
         }
-
         return $this;
     }
+
 }
