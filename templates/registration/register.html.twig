@@ -28,7 +28,7 @@
 		<h1 class="welcome-title">Welcome, Create Your Account</h1>
 
 		<!-- Registration Form -->
-		{{ form_start(registrationForm, { 'attr': { 'class': 'register-form' } }) }}
+		{{ form_start(registrationForm, { 'attr': { 'class': 'register-form' }, 'method': 'post' }) }}
 		{{ form_row(registrationForm.firstName, { 'label': 'First Name' }) }}
 		{{ form_row(registrationForm.lastName, { 'label': 'Last Name' }) }}
 		{{ form_row(registrationForm.email, { 'label': 'Email' }) }}

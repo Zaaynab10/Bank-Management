@@ -28,12 +28,12 @@ class Transaction
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_time = null;
 
-    #[ORM\ManyToOne(inversedBy: 'transactions_issued')]
-    #[ORM\JoinColumn]
+    #[ORM\ManyToOne(targetEntity: BankAccount::class, inversedBy: 'transactions_issued')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?BankAccount $source_account = null;
 
-    #[ORM\ManyToOne(inversedBy: 'transactions_received')]
-    #[ORM\JoinColumn]
+    #[ORM\ManyToOne(targetEntity: BankAccount::class, inversedBy: 'transactions_received')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?BankAccount $destination_account = null;
 
     public function getId(): ?int
@@ -46,7 +46,7 @@ class Transaction
         return $this->type;
     }
 
-    public function setType( TransactionType  $type): static
+    public function setType(TransactionType  $type): static
     {
         $this->type = $type;
 

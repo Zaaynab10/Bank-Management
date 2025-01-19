@@ -72,7 +72,7 @@ final class BankAccountController extends AbstractController
             $entityManager->persist($bankAccount);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('customer_dashboard');
         }
 
         return $this->render('bank_account/index.html.twig', [
