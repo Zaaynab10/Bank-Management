@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Transaction;
+use App\Entity\BankAccount;
+use App\Enum\BankAccountStatus;
 use App\Repository\BankAccountRepository;
 use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,6 +31,7 @@ class AdminManageUsersController extends AbstractController
 
         return new JsonResponse($userData);
     }
+
     #[Route('/admin/user/{id}/accounts', name: 'admin_user_accounts')]
 public function showUserAccounts(int $id, BankAccountRepository $bankAccountRepository): JsonResponse
 {
@@ -49,6 +52,7 @@ public function showUserAccounts(int $id, BankAccountRepository $bankAccountRepo
 
     return new JsonResponse($accountsData);
 }
+
 
 #[Route('/admin/user/{id}/account/{accountId}/transactions', name: 'account_transactions')]
 public function showAccountTransactions(int $accountId, TransactionRepository $transactionRepository): JsonResponse
@@ -78,5 +82,25 @@ public function showAccountTransactions(int $accountId, TransactionRepository $t
     return new JsonResponse($transactionsData);
 }
 
+#[Route('/admin/account/{id}/toggle-status', name: 'toggle_bank_account_status')]
+
+public function toggleStatus(BankAccount $bankAccount, EntityManagerInterface $entityManager)
+{
+    if ($bankAccount->getStatus() === BankAccountStatus::ACTIVE) {
+        $bankAccount->setStatus(BankAccountStatus::CLOSE);
+    } else {
+        $bankAccount->setStatus(BankAccountStatus::ACTIVE);
+    }
+
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_user');
 }
+
+
+
+}
+
+
+
 
