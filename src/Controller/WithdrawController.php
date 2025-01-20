@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Transaction;
 use App\Enum\TransactionType;
 use App\Form\WithdrawType;
@@ -18,6 +19,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class WithdrawController extends AbstractController
 {
     #[Route('/withdraw', name: 'app_withdraw')]
+    #[IsGranted('ROLE_CUSTOMER')] 
+
     public function MakeWithdrawal(
         Request $request, 
         EntityManagerInterface $entityManager, 
@@ -42,6 +45,7 @@ final class WithdrawController extends AbstractController
             $amount = $form->get('amount')->getData();
             $bankAccounts = $bankAccountRepository->findBy([], ['id' => 'ASC']);
            $bankAccount=$bankAccounts[$bankAccountIndex];
+           dump($bankAccount);
            if (!$bankAccount->isActive()) {
             throw new AccessDeniedException('Le compte source est inactif. Transaction refusée.');
         }
@@ -66,7 +70,7 @@ final class WithdrawController extends AbstractController
             $entityManager->persist($bankAccount);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('user_accounts');
         }
 
         return $this->render('transactions/withdraw.html.twig', [

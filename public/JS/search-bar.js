@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateUserList(users) {
-        userListContainer.innerHTML = ''; // Efface les anciens résultats
+        userListContainer.innerHTML = ''; 
 
         if (users.length === 0) {
             userListContainer.innerHTML = '<p class="no-results">Aucun utilisateur trouvé.</p>';
@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             userListContainer.appendChild(userCard);
         });
 
-        // Appliquer la classe dark-mode si activée
         if (body.classList.contains('dark-mode')) {
             userListContainer.classList.add('dark-mode');
         } else {

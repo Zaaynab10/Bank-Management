@@ -1,136 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mes Comptes{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('css/transaction.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
-    <style>
-        .active {
-            color: green;
-            font-weight: bold;
-        }
-
-        .inactive {
-            color: red;
-            font-weight: bold;
-        }
-
-        .account-item {
-            margin-bottom: 20px;
-        }
-
-        .account-item strong {
-            font-size: 1.2em;
-        }
-
-        .account-item p {
-            margin: 5px 0;
-        }
-
-        .account-item a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .account-item a:hover {
-            background-color: #0056b3;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 15px;
-        }
-
-        header nav a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .main-content {
-            display: flex;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .left-section {
-            width: 30%;
-            margin-right: 20px;
-        }
-
-        .right-section {
-            width: 70%;
-        }
-
-        .left-section h2,
-        .right-section h3 {
-            color: #333;
-        }
-
-        .accounts ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .accounts li {
-            margin-bottom: 10px;
-        }
-
-        .accounts li a {
-            color: #007bff;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
+
     {% block body %}
-        <header>
-            <nav>
-                <a href="/user">
-                    <h1>VOTRE ESPACE PERSONNEL</h1>
-                </a>
-                <div>
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    <img src="{{ asset('images/profile-placeholder.png') }}" alt="Photo de profil">
+        <header class="bg-green-700 text-white p-4 shadow-md">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Banque en ligne</h1>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-md transition">Déconnexion</a>
+                    <img src="{{ asset('images/profile-placeholder.png') }}" alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-white">
                 </div>
-            </nav>
+            </div>
         </header>
 
-        <div class="main-content">
-            <!-- Section Gauche (Comptes) -->
-            <div class="left-section">
-                <h2>Mes Comptes</h2>
-                <ul>
-                    {% for account in bankAccounts %}
-                        <li class="account-item">
-                            <strong>Compte {{ account.accountNumber }}</strong><br>
-                            <p>Type de compte : {{ account.type.value }}</p>
-                            <p>Solde actuel : {{ account.balance|number_format(2, ',', ' ') }} €</p>
-                            <p>État : 
-                                <span >
-                                 {{ account.status.value }}
-                                </span>
-                            </p>
-                            <a href="{{ path('user_account_transactions', { accountId: account.id }) }}">Voir les transactions</a>
-                        </li>
-                    {% else %}
-                        <li>Aucun compte disponible.</li>
-                    {% endfor %}
-                </ul>
+        <div class="container mx-auto mt-10 p-4">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6">Mes Comptes</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for account in bankAccounts %}
+                    <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 {{ account.status.value == 'active' ? 'border-green-500' : 'border-red-500' }}">
+                        <h3 class="text-lg font-bold text-gray-700">Compte {{ account.accountNumber }}</h3>
+                        <p class="text-gray-500">Type : <span class="font-semibold">{{ account.type.value }}</span></p>
+                        <p class="text-gray-500">Solde : <span class="font-semibold">{{ account.balance|number_format(2, ',', ' ') }} €</span></p>
+                        <p class="mt-2">
+                            État : 
+                            <span class="px-2 py-1 rounded-md text-white text-sm {{ account.status.value == 'active' ? 'bg-green-500' : 'bg-red-500' }}">
+                                {{ account.status.value | capitalize }}
+                            </span>
+                        </p>
+                        <a href="{{ path('user_account_transactions', { accountId: account.id }) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">Voir les transactions</a>
+                    </div>
+                {% else %}
+                    <p class="text-gray-600 col-span-full text-center">Aucun compte disponible.</p>
+                {% endfor %}
             </div>
         </div>
+
     {% endblock %}
+
 </body>
 </html>

@@ -11,10 +11,10 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\TransactionRepository;
 use App\Repository\BankAccountRepository;
-use App\Entity\TransactionStatus;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\UserSearchService;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminDashController extends AbstractController
 {
@@ -26,14 +26,14 @@ final class AdminDashController extends AbstractController
     }
 
     #[Route('/admin/dash', name: 'home_admin_dash')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(
         UserRepository $userRepository,
         BankAccountRepository $bankAccountRepository,
         TransactionRepository $transactionRepository
     ): Response {
-        $user = $this->getUser(); // L'utilisateur connecté
+        $user = $this->getUser(); 
 
-        // Récupérer les statistiques globales
         $totalClients = $userRepository->count([]);
         $totalAccounts = $bankAccountRepository->count([]);
         $totalTransactions = $transactionRepository->count([]);
@@ -101,11 +101,9 @@ final class AdminDashController extends AbstractController
         $user->setPhone($request->request->get('phone'));
         $user->setRoles([$request->request->get('roles')]);
 
-        // Hash du mot de passe
         $hashedPassword = $passwordHasher->hashPassword($user, $request->request->get('password'));
         $user->setPassword($hashedPassword);
 
-        // Sauvegarde du nouvel utilisateur
         $entityManager->persist($user);
         $entityManager->flush();
 

@@ -23,7 +23,7 @@ class LoginRedirectService
         }
 
         if ($this->security->isGranted('ROLE_CUSTOMER')) {
-            return $this->router->generate('');
+            return $this->router->generate('user_accounts');
         }
 
         return $this->router->generate('app_home');
