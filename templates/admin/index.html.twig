@@ -6,7 +6,6 @@
 {% block body %}
 	<div
 		class="admin-dashboard">
-		<!-- Sidebar -->
 		<aside class="sidebar">
 			<video autoplay muted loop class="background-video">
 				<source src="{{ asset('videos/light-side.mp4') }}" type="video/mp4"/>
@@ -15,14 +14,12 @@
 				<input type="text" id="searchInput" placeholder="Rechercher un utilisateur..."/>
 			</div>
 			<div
-				id="userResults" class="user-results"><!-- Les résultats de la recherche seront insérés ici -->
+				id="userResults" class="user-results">
 			</div>
 		</aside>
 
-		<!-- Main Content -->
 		<main
 			class="main-content">
-			<!-- Header -->
 			<header class="dashboard-header">
 				<div class="logo">
 					<a href="{{ path('app_homepage') }}">
@@ -36,11 +33,9 @@
 				</div>
 				<div
 					class="admin-info">
-					<!-- Admin photo -->
 					<img
 					src="{{ asset('images/cat-profile.jpg') }}" alt="Admin Profile Picture" class="admin-photo" id="adminToggle">
 
-					<!-- Hidden Navigation -->
 					<div class="hidden-nav">
 						<ul>
 							<li class="nav-item">
@@ -63,64 +58,32 @@
 			</div>
 		</header>
 
-		<!-- Stats Section -->
 		<section
 			class="stats-section">
-			<!-- Navigation Icons -->
 			<nav class="stats-nav">
 				<button class="stats-icon" data-target="clients-details">
 					<img src="{{ asset('images/clients.svg') }}" alt="Clients Icon">
 				</button>
-				<button class="stats-icon" data-target="transactions-details">
-					<img src="{{ asset('images/transactions.svg') }}" alt="Transactions Icon">
-				</button>
+				
 				<button class="stats-icon" data-target="stats-details">
 					<img src="{{ asset('images/stats.svg') }}" alt="Other Icon">
 				</button>
 			</nav>
 
-			<!-- Details Containers -->
 			<section class="details-container">
-				<div id="clients-details" class="details-content">
-					<h2>Clients Details</h2>
-					<p>Nombre de clients :
-						{{ totalClients }}</p>
-				</div>
+    <div id="clients-details" class="details-content">
+        <h2>Détails des clients</h2>
+        <p>Nombre de clients : {{ totalClients }}</p>
+        
+        <p>
+            <a href="{{ path('admin_users_list') }}" class="text-blue-500 hover:text-blue-700">
+                Voir les comptes bancaires des clients
+            </a>
+        </p>
+    </div>
+</section>
 
-				<div id="transactions-details" class="details-content">
-					<h2>Transactions</h2>
-					{% if transactions is defined and transactions|length > 0 %}
-						<table>
-							<thead>
-								<tr>
-									<th>Montant</th>
-									<th>Date</th>
-									<th>Type</th>
-									<th>Statut</th>
-									<th>Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for transaction in transactions %}
-									<tr>
-										<td>{{ transaction.amount }}
-											€</td>
-										<td>{{ transaction.date_time|date('d/m/Y H:i') }}</td>
-										<td>{{ transaction.type }}</td>
-										<td>{{ transaction.status }}</td>
-										<td>
-											<form method="post" action="{{ path('admin_transaction_cancel', { id: transaction.id }) }}">
-												<button type="submit" class="btn-cancel">Annuler</button>
-											</form>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					{% else %}
-						<p>Aucune transaction trouvée.</p>
-					{% endif %}
-				</div>
+				
 
 				<div id="stats-details" class="details-content">
 					<h2>Stats des Comptes</h2>
