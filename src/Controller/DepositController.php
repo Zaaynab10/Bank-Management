@@ -13,11 +13,15 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/transaction')]
+
 final class DepositController extends AbstractController
 {
     #[Route('/deposit', name: 'app_deposit')]
+    #[IsGranted('ROLE_CUSTOMER')] 
+
     public function MakeDeposit(
         Request $request, 
         EntityManagerInterface $entityManager, 
@@ -68,7 +72,7 @@ final class DepositController extends AbstractController
             $entityManager->persist($bankAccount);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('user_accounts');
         }
 
         return $this->render('transactions/deposit.html.twig', [

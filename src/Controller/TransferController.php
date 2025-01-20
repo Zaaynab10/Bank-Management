@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Transaction;
 use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
@@ -19,6 +20,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TransferController extends AbstractController
 {
     #[Route('/transfer', name: 'app_transfer')]
+    #[IsGranted('ROLE_CUSTOMER')] 
+
     public function MakeTransfer(Request $request,
                              BankAccountRepository $bankAccountRepository,
                              TransactionService $transactionService, 
@@ -96,7 +99,8 @@ final class TransferController extends AbstractController
 
             $entityManager->flush();
     
-            return $this->json(['status' => 'ok']);
+            return $this->redirectToRoute('user_accounts');
+
         }
     
         return $this->render('transactions/transfer.html.twig', [
