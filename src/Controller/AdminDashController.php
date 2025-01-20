@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,9 +16,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\UserSearchService;
 
-
 final class AdminDashController extends AbstractController
 {
+    private UserSearchService $userSearchService;
+
+    public function __construct(UserSearchService $userSearchService)
+    {
+        $this->userSearchService = $userSearchService;
+    }
+
     #[Route('/admin/dash', name: 'home_admin_dash')]
     public function index(
         UserRepository $userRepository,
@@ -41,9 +48,8 @@ final class AdminDashController extends AbstractController
         ]);
     }
 
-
     #[Route('/admin/search', name: 'admin_search', methods: ['GET'])]
-    public function search(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function search(Request $request): JsonResponse
     {
         $query = $request->query->get('q', '');
 
@@ -62,7 +68,6 @@ final class AdminDashController extends AbstractController
         return new JsonResponse($data);
     }
 
-    // src/Controller/UserDetailController.php
     #[Route('/admin/user/{id}', name: 'admin_user_detail')]
     public function userDetail(
         int $id,
@@ -77,35 +82,12 @@ final class AdminDashController extends AbstractController
 
         $transactions = $transactionRepository->findTransactionsByUserId($id);
         $bankAccounts = $bankAccountRepository->findBy(['owner' => $id]);
-        $transactions = $transactionRepository->findTransactionsByUserId($id);
 
-        return $this->render('admin/user_detail.html.twig', [
+        return $this->render('admin/userDetail.html.twig', [
             'user' => $user,
             'bankAccounts' => $bankAccounts,
             'transactions' => $transactions,
         ]);
-    }
-
-    #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel', methods: ['POST'])]
-    public function cancelTransaction(
-        int $id,
-        TransactionRepository $transactionRepository,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $transaction = $transactionRepository->find($id);
-
-        if (!$transaction) {
-            throw $this->createNotFoundException("La transaction demandée n'existe pas.");
-        }
-
-        // $transaction->setStatus(TransactionStatus::CANCELLED);
-        $entityManager->persist($transaction);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Transaction annulée avec succès.');
-
-        // Redirige vers la page de détails utilisateur
-        return $this->redirectToRoute('admin_user_detail', ['id' => $transaction->getSourceAccount()->getOwner()->getId()]);
     }
 
     #[Route('/admin/add-user', name: 'admin_add_user', methods: ['POST'])]
@@ -119,19 +101,16 @@ final class AdminDashController extends AbstractController
         $user->setPhone($request->request->get('phone'));
         $user->setRoles([$request->request->get('roles')]);
 
-        // Hash the password
+        // Hash du mot de passe
         $hashedPassword = $passwordHasher->hashPassword($user, $request->request->get('password'));
         $user->setPassword($hashedPassword);
 
-        // Persist the new user
+        // Sauvegarde du nouvel utilisateur
         $entityManager->persist($user);
         $entityManager->flush();
 
         $this->addFlash('success', 'Utilisateur ajouté avec succès !');
 
-        return $this->redirectToRoute('home_admin_dash'); // Redirige vers le dashboard après ajout
+        return $this->redirectToRoute('home_admin_dash');
     }
-
-
-
 }

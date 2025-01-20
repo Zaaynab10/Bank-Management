@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
             userCard.classList.add('user-card');
             userCard.innerHTML = `
                 <a href="/admin/user/${user.id}" class="user-link">
-                    <img src="${user.profilePicture}" alt="${user.firstName} ${user.lastName}" class="user-avatar">
+                    <img src="${user.profilePicture || '/images/user.svg'}" alt="${user.name || 'Utilisateur'}" class="user-avatar">
                     <div class="user-info">
-                        <h3>${user.firstName} ${user.lastName}</h3>
-                        <p>${user.email}</p>
+                        <h3>${user.name || 'Nom indisponible'}</h3>
+                        <p>${user.email || 'Email indisponible'}</p>
                     </div>
                 </a>
             `;

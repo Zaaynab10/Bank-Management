@@ -35,4 +35,11 @@ class TransactionRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getTotalTransactionAmount(): float
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('SUM(t.amount) as totalAmount');
+
+        return (float) $qb->getQuery()->getSingleScalarResult();
+    }
 }
