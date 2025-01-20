@@ -1,99 +1,79 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>
-        {% block title %}Votre Espace Transactionnel{% endblock %}
-    </title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <title>{% block title %}Transactions{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/transaction.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <script src="{{ asset('js/pagination.js') }}" defer></script> 
 </head>
 <body>
-{% block body %}
+    {% block body %}
+        <header>
+            <nav>
+                <a href="/user">
+                    <h1>VOTRE ESPACE PERSONNEL</h1>
+                </a>
+                <div>
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    <img src="{{ asset('images/profile-placeholder.png') }}" alt="Photo de profil">
+                </div>
+            </nav>
+        </header>
 
-<header>
-    <nav>
-        <a href="/user/home"><h1>VOTRE ESPACE PERSONNEL</h1></a>
-        <div>
-            <a href="/logout">Se déconnecter</a>
-            <img src="{{ asset('images/profile-placeholder.png') }}" alt="Photo de profil"><!-- Static placeholder -->
-        </div>
-    </nav>
-</header>
+        <div class="main-content">
+            <!-- Section Gauche -->
+            <div class="left-section">
+                <h2>Solde du Compte :</h2>
+                <p id="account-balance">{{ bankAccount.balance|number_format(2, ',', ' ') }} €</p>
 
-<div class="main-content">
-    <div class="left-section">
-        <h2>Solde du Compte : <span id="account-balance">{{ balance|number_format(2, '.', ' ') }} €</span></h2>
-        <button id="change-account">Changer de compte</button>
-        <div class="alerts">
-            <h3>Vigilances</h3>
-            <p>Aucune alerte pour l'instant.</p><!-- Static text -->
-        </div>
-        <div class="shortcuts">
-            <button onclick="window.location.href='/transactions/{{ accountId }}/transfer'">Faire un virement</button>
-            <button onclick="window.location.href='/transactions/{{ accountId }}/download'">Télécharger l'historique</button>
-        </div>
-    </div>
-    <div class="right-section">
-        <div class="transactions">
-            <h3>Transactions</h3>
-            <ul id="transaction-list">
-                {% if transactions is not empty %}
+                <div class="accounts">
+                    <h3>Mes Comptes</h3>
+                    <ul>
+                        {% for account in bankAccounts %}
+                            <li>
+                                <strong>Compte {{ account.accountNumber }}</strong> - {{ account.type.value }}
+                            </li>
+                        {% else %}
+                            <li>Aucun compte disponible.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="shortcuts">
+                    <button onclick="window.location.href='{{ path('app_transfer') }}'">Faire un virement</button>
+                    <button onclick="window.location.href='/transactions/{{ bankAccount.id }}/download'">Télécharger l'historique</button>
+                </div>
+            </div>
+
+            <!-- Section Droite -->
+            <div class="right-section">
+                <h3>Transactions</h3>
+                <ul id="transaction-list">
                     {% for transaction in transactions %}
-                        <li>
-                            <span>{{ transaction.dateTime|date('d/m/Y H:i') }}</span> 
-                            <span>{{ transaction.type }}</span> 
-                            <span>{{ transaction.amount|number_format(2, '.', ' ') }} €</span> 
-                            <span>{{ transaction.status }}</span> 
+                        <li class="transaction-item">
+                            <div class="transaction-content">
+                                <span class="date">{{ transaction.dateTime|date('d/m/Y H:i') }}</span> 
+                                <span class="type">{{ transaction.type.value }}</span> 
+                                <span class="amount {{ transaction.amount < 0 ? 'negative' : 'positive' }}">
+                                    {{ transaction.amount|number_format(2, ',', ' ') }} €
+                                </span> 
+                                <span class="status">{{ transaction.status.value }}</span>
+                            </div>
                         </li>
+                    {% else %}
+                        <li>Aucune transaction trouvée.</li>
                     {% endfor %}
-                {% else %}
-                    <li>Aucune transaction trouvée.</li> 
-                {% endif %}
-            </ul>
+                </ul>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="page-btn" id="prev-page">Précédent</button>
+                    <span id="page-info">Page 1</span>
+                    <button class="page-btn" id="next-page">Suivant</button>
+                </div>
+            </div>
         </div>
-        <div class="pagination">
-            <button class="page-btn" data-page="1">1</button>
-            <button class="page-btn" data-page="2">2</button>
-            <button class="page-btn" data-page="3">3</button>
-        </div>
-    </div>
-</div>
-
-=======
-{% extends 'base.html.twig' %}
-
-{% block title %}Transactions{% endblock %}
-
-{% block body %}
-    <h1>Transactions de votre compte {{ bankAccount.id }}</h1>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Type de Transaction</th>
-                <th>Montant</th>
-                <th>Statut</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for transaction in transactions %}
-                <tr>
-                    <td>{{ transaction.type.value }}</td> 
-                    <td>{{ transaction.amount }}</td> 
-                    <td>{{ transaction.status.value }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Aucune transaction trouvée.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
->>>>>>> e97728da3847fdedb6e0a3e193a2ee3173b6a664
-{% endblock %}
+    {% endblock %}
 </body>
 </html>

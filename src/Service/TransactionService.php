@@ -18,9 +18,9 @@ class TransactionService
     }
 
     public function processTransaction(
+        float $amount,
         BankAccount $sourceAccount,
         BankAccount $destinationAccount,
-        float $amount,
         TransactionType $transactionType
     ) {
         $transaction = new Transaction();
@@ -44,4 +44,26 @@ class TransactionService
         $this->entityManager->persist($destinationAccount);
         $this->entityManager->flush();
     }
+    public function createFailedTransaction(
+        float $amount, 
+        BankAccount $sourceAccount, 
+        BankAccount $destinationAccount, 
+        TransactionType $transactionType,
+        EntityManagerInterface $entityManager
+    ) {
+        $transaction = new Transaction();
+    
+        $transaction->setAmount($amount);
+        $transaction->setDateTime(new \DateTime());
+        $transaction->setType($transactionType);
+        $transaction->setStatus(TransactionStatus::FAILED);
+        $transaction->setSourceAccount($sourceAccount);
+        $transaction->setDestinationAccount($destinationAccount);
+    
+        $entityManager->persist($transaction);
+        $entityManager->flush(); 
+    
+    }
+    
+
 }

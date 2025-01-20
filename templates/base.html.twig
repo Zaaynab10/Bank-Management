@@ -14,6 +14,8 @@
 				<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 			{% elseif app.request.attributes.get('_route') starts with 'admin_user_detail' %}
 				<link rel="stylesheet" href="{{ asset('css/user-details.css') }}">
+			{% elseif app.request.attributes.get('_route') starts with 'app_homepage' %}
+				<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
 			{% endif %}
 		{% endblock %}
 

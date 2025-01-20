@@ -86,21 +86,23 @@ public function showAccountTransactions(int $accountId, TransactionRepository $t
 public function toggleStatus(int $id, BankAccountRepository $bankAccountRepository, EntityManagerInterface $entityManager)
 {
     $bankAccount = $bankAccountRepository->find($id);
+
     
     if (!$bankAccount) {
-        throw $this->createNotFoundException('Account not found.');
+        throw $this->createNotFoundException("Bank account not found.");
     }
 
-    $bankAccount->setStatus(
-        $bankAccount->getStatus() === BankAccountStatus::ACTIVE 
-        ? BankAccountStatus::CLOSE 
-        : BankAccountStatus::ACTIVE
-    );
+    if ($bankAccount->getStatus() === BankAccountStatus::ACTIVE) {
+        $bankAccount->setStatus(BankAccountStatus::CLOSE);
+    } else {
+        $bankAccount->setStatus(BankAccountStatus::ACTIVE);
+    }
 
     $entityManager->flush();
 
     return $this->redirectToRoute('app_user');
 }
+
 
 }
 

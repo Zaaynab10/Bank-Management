@@ -3,121 +3,133 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}Espace utilisateur
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link rel="stylesheet" href="{{ asset('css/home_user.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/header.css') }}">
+	</head>
+	<body>
 		{% block body %}
-
 			<header>
 				<nav>
 					<a href="/user">
 						<h1>VOTRE ESPACE PERSONNEL</h1>
 					</a>
 					<div>
-						<a href="">Se deconnecter</a>
-						<img src="" alt="Photo de profil"></div>
+						<a href="{{ path('app_logout') }}">Se déconnecter</a>
+						<img src="{{ asset('images/profile-placeholder.png') }}" alt="Photo de profil">
+					</div>
 				</nav>
 			</header>
 			<section class="banniere-acceuil">
-				<div class="solde-accueil">
-					<div class="banniere">
-						<div class="text-banniere">
-							<p class="text-banniere-p">Votre solde actuel
-								<br>
-								est de :</p>
-							<p class="text-banniere-solde">1 234,56€</p>
+				{% if bankAccounts|length > 0 %}
+					<div class="solde-accueil">
+						<div class="banniere">
+							<div class="text-banniere">
+								<p class="text-banniere-p">Votre solde actuel<br>est de :</p>
+								<p class="text-banniere-solde">
+									{{ bankAccounts[0].balance|number_format(2, ',', ' ') }}
+									€
+								</p>
+							</div>
+							<div class="boutons-banniere">
+								<button onclick="window.location.href='{{ path('app_deposit') }}'">Déposer</button>
+								<button onclick="window.location.href='{{ path('app_withdraw') }}'">Retirer</button>
+								<button onclick="window.location.href='{{ path('app_transfer') }}'">Transférer</button>
+							</div>
 						</div>
-						<div class="boutons-banniere">
-							<button>RECEVOIR</button>
-							<button>RECEVOIR</button>
-							<button>RECEVOIR</button>
-							<button>RECEVOIR</button>
-						</div>
+						<video autoplay loop muted playsinline class="background-video">
+							<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
 					</div>
-					<video autoplay loop muted playsinline class="background-video">
-						<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
-						Your browser does not support the video tag.
-					</video>
-					{# <img src="{{ asset('images/photo-banniere.png') }}" alt="image-de-fond"> #}
-				</div>
+				{% else %}
+					<!-- Message et bouton si aucun compte n'existe -->
+					<div class="no-account">
+						<p>Vous n'avez pas encore de compte bancaire. Créez-en un pour commencer à utiliser nos services.</p>
+						<button onclick="window.location.href='{{ path('app_create_bank_account') }}'">Créer un compte bancaire</button>
+					</div>
+				{% endif %}
 			</section>
 			<main>
 				<div class="bloc">
 					<div class="titre-bloc">
-						<a href="user/transactions/{bankAccountId}">
-							<h2>Dernières transactions</h2>
-						</a>
+						<h2>Mes dernières transactions</h2>
 					</div>
 					<ul class="liste-transactions">
-						{% if transactions is defined and transactions is not empty %}
-							{% for transaction in transactions %}
+						{% if bankAccounts is defined and bankAccounts|length > 0 %}
+							{% for account in bankAccounts %}
 								<li class="transaction-item">
 									<div class="transaction-info">
-										<span class="date">{{ transaction.date | date('d/m/Y') }}</span>
-										<span class="description">{{ transaction.description }}</span>
+										<strong class="date">{{ account.accountNumber }}</strong>
+										<span class="description">Type :
+											{{ account.type.value }}</span>
 									</div>
-									<div class="transaction-montant {{ transaction.amount < 0 ? 'negative' : 'positive' }}">
-										{{ transaction.amount | number_format(2, ',', ' ') }}
+									<div class="transaction-montant">
+										{{ account.balance|number_format(2, ',', ' ') }}
+										€
+									</div>
+									<div class="compte-actions">
+										<a href="{{ path('app_transactions', { accountId: account.id }) }}" class="btn btn-primary">
+											Voir les transactions
+										</a>
+									</div>
+								</li>
+							{% endfor %}
+						{% else %}
+							<li>Aucun compte disponible.</li>
+						{% endif %}
+					</ul>
+				</div>
+				<div class="bloc">
+					<div class="titre-bloc">
+						<h2>Mes comptes</h2>
+					</div>
+					<ul class="liste-comptes">
+						{% if bankAccounts is defined and bankAccounts|length > 0 %}
+							{% for account in bankAccounts %}
+								<li class="compte-item">
+									<div class="compte-info">
+										<strong>{{ account.accountNumber }}</strong>
+										<span>Type :
+											{{ account.type.value }}</span>
+									</div>
+									<div class="compte-balance">
+										{{ account.balance|number_format(2, ',', ' ') }}
 										€
 									</div>
 								</li>
 							{% endfor %}
 						{% else %}
-							<li>Aucune transaction récente disponible.</li>
+							<li>Aucun compte disponible.</li>
 						{% endif %}
 					</ul>
 				</div>
-			</div>
-			<div class="bloc">
-				<div class="titre-bloc">
-					<h2>Mes comptes</h2>
-				</div>
-				<ul class="liste-comptes">
-					{% if accounts is defined and accounts is not empty %}
-						{% for account in accounts %}
-							<li class="compte-item">
-								<div class="compte-info">
-									<strong>{{ account.name }}</strong>
-									<span>Type :
-										{{ account.type }}</span>
-								</div>
-								<div class="compte-balance">
-									{{ account.balance | number_format(2, ',', ' ') }}
-									€
-								</div>
-							</li>
-						{% endfor %}
-					{% else %}
-						<li>Aucun compte disponible.</li>
-					{% endif %}
-				</ul>
-			</div>
-		</head>
-	</html>
-</div>
-<div class="bloc">
-	<div class="titre-bloc">
-		<h2>Mes contacts</h2>
-	</div>
-	<div class="contact-info">
-		<p>
-			<strong>Conseiller :</strong>
-			John Doe
-		</p>
-		<p>
-			<strong>Email :</strong>
-			<a href="mailto:johndoe@example.com">johndoe@example.com</a>
-		</p>
-		<p>
-			<strong>Téléphone :</strong>
-			<a href="tel:+1234567890">+1 234 567 890</a>
-		</p>
-		<p>
-			<strong>Agence :</strong>
-			Agence Centrale
-		</p>
-	</div>
-</div></head></html></main>{% endblock %}</head></html>
+				<div class="bloc">
+					<div class="titre-bloc">
+						<h2>Mes contacts</h2>
+					</div>
+					<div class="contact-info">
+						<p>
+							<strong>Conseiller :</strong>
+							John Doe
+						</p>
+						<p>
+							<strong>Email :</strong>
+							<a href="mailto:johndoe@example.com">johndoe@example.com</a>
+						</p>
+						<p>
+							<strong>Téléphone :</strong>
+							<a href="tel:+1234567890">+1 234 567 890</a>
+						</p>
+						<p>
+							<strong>Agence :</strong>
+							Agence Centrale
+						</p>
+					</div>
+				</main>
+			{% endblock %}
+		</body>
+	</body>
+</html>

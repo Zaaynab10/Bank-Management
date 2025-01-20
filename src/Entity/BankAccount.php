@@ -33,15 +33,9 @@ class BankAccount
     #[ORM\Column(type: 'float')]
     private float $balance = 100.00;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'compte_source')]
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'source_account')]
     private Collection $transactions_issued;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'destination_account')]
     private Collection $transactions_received;
 
@@ -132,22 +126,23 @@ class BankAccount
     }
 
     public function canWithdraw(float $amount): bool
-{
-    if ($this->type === BankAccountType::CURRENT) {
-        return ($this->balance - $amount >= -400);
+    {
+        if ($this->type === BankAccountType::CURRENT) {
+            return ($this->balance - $amount >= -400);
+        }
+
+        return ($this->balance - $amount >= 0);
     }
 
-    return ($this->balance - $amount >= 0);
-}
+    public function canDeposit(float $amount): bool
+    {
+        if ($this->type === BankAccountType::SAVINGS) {
+            return ($this->balance + $amount <= 25000);
+        }
 
-public function canDeposit(float $amount): bool
-{
-    if ($this->type === BankAccountType::SAVINGS) {
-        return ($this->balance + $amount <= 25000);
+        return true;
     }
 
-    return true; }
-    
 
     public function removeTransactionsIssued(Transaction $transactionsIssued): static
     {
@@ -164,6 +159,13 @@ public function canDeposit(float $amount): bool
     {
         return $this->transactions_received;
     }
+
+
+    public function isActive(): bool
+{
+    return $this->status === BankAccountStatus::ACTIVE;
+}
+
 
     public function addTransactionsReceived(Transaction $transactionsReceived): static
     {
