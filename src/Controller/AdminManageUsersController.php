@@ -63,6 +63,6 @@ class AdminManageUsersController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->redirectToRoute('admin_users_list');
+        return $this->redirectToRoute('admin_user_accounts');
     }
 }

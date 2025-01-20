@@ -6,13 +6,11 @@
 {% block body %}
 	<div
 		class="user-detail-page">
-		<!-- Background Video -->
 		<video autoplay loop muted playsinline class="background-video">
 			<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
 
-		<!-- Navigation -->
 		<nav>
 			<div class="logo">
 				<a href="/admin/dash">
@@ -45,7 +43,6 @@
 		<main>
 			<div
 				class="user-info-main">
-				<!-- Header -->
 				<header class="user-header">
 					<img src="{{ asset('images/user.svg') }}" alt="Photo de profil" class="user-photo">
 					<div class="user-info">
@@ -63,7 +60,6 @@
 					</div>
 				</header>
 
-				<!-- Titres cliquables -->
 				<div class="user-main">
 					<section class="user-accounts stats-box collapsible-header" data-type="accounts">
 						<h2>
@@ -78,7 +74,6 @@
 					</section>
 				</div>
 
-				<!-- Footer -->
 				<section class="user-footer">
 					<video autoplay loop muted playsinline class="footer-video">
 						<source src="{{ asset('videos/light-foot.mp4') }}" type="video/mp4">

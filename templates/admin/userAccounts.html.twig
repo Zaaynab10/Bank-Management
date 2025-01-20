@@ -20,7 +20,7 @@
                                 <span class="status-closed">Fermé</span>
                             {% endif %}
                         </div>
-                        <a href="{{ path('account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
+                        <a href="{{ path('admin_account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -43,7 +43,7 @@
                                 <span class="status-closed">Fermé</span>
                             {% endif %}
                         </div>
-                        <a href="{{ path('account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
+                        <a href="{{ path('admin_account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
                     </li>
                 {% endif %}
             {% endfor %}
