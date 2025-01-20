@@ -1,63 +1,141 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Log in!
-{% endblock %}
 
 {% block body %}
-	<div
-		class="login-page">
-		<!-- Video Background -->
-		<video autoplay loop muted playsinline class="background-video">
-			<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
-			Your browser does not support the video tag.
-		</video>
+<div class="login-page">
+    <div class="logo">
+        <a href="#">
+            <img src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
+        </a>
+    </div>
 
-		<!-- Logo -->
-		<div class="logo">
-			<a href="#">
-				<img src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
-			</a>
-		</div>
+    <h1 class="welcome-title">Welcome Back</h1>
 
-		<!-- Dark Mode Switch -->
-		<div class="dark-mode-switch">
-			<img id="themeIcon" src="{{ asset('images/sun.svg') }}" alt="Theme Icon"/>
-		</div>
+    <form method="post" action="{{ path('app_login') }}" class="login-form">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-		<!-- Title -->
-		<h1 class="welcome-title">Welcome Back</h1>
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="text" name="_username" id="inputEmail" value="{{ last_username }}" required autofocus>
+        </div>
 
-		<!-- Login Form -->
-		<form method="post" action="{{ path('app_login') }}" class="login-form">
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="_password" id="inputPassword" required>
+        </div>
 
-			<div class="form-group">
-				<label for="inputEmail">Email</label>
-				<input type="text" name="_username" id="inputEmail" value="{{ last_username }}" required autofocus>
-			</div>
+        <button class="btn btn-green" type="submit">
+            <img src="{{ asset('images/arrow-circle-right.svg') }}" alt="Right Arrow">
+        </button>
+    </form>
 
-			<div class="form-group">
-				<label for="inputPassword">Password</label>
-				<input type="password" name="_password" id="inputPassword" required>
-			</div>
+    <div class="footer-links">
+        <a href="{{ path('app_register') }}">Don't have an account yet? Register</a>
+    </div>
 
-			<button class="btn btn-green" type="submit">
-				<img src="{{ asset('images/arrow-circle-right.svg') }}" alt="Right Arrow">
-			</button>
-		</form>
+    <div class="footer-links">
+        <a href="#">Terms of Use</a>
+        |
+        <a href="#">Privacy Policy</a>
+    </div>
+</div>
 
+<style>
+    .login-page {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 40px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+    }
 
-		<!-- Footer Links -->
-		<div class="footer-links">
-			<a href="{{ path('app_register') }}">Don't have an account yet? Register</a>
-		</div>
+    .logo {
+        margin-bottom: 20px;
+    }
 
-		<div class="footer-links">
-			<a href="#">Terms of Use</a>
-			|
-			<a href="#">Privacy Policy</a>
-		</div>
-	</div>
+    .logo img {
+        width: 100px;
+    }
+
+    .welcome-title {
+        color: white;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .login-form {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        color: white;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    .btn {
+        width: 100%;
+        background-color: #00aaff;
+        padding: 14px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 1.1rem;
+    }
+
+    .btn:hover {
+        background-color: #0077cc;
+    }
+
+    .footer-links {
+        margin-top: 20px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .footer-links a {
+        color: #f1f1f1;
+        text-decoration: none;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+</style>
 {% endblock %}

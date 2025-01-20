@@ -1,0 +1,130 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Comptes de l'utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Comptes bancaires de l'utilisateur</h1>
+
+    <div class="account-container">
+        <h2>Comptes courants</h2>
+        <ul class="account-list">
+            {% for account in bankAccounts %}
+                {% if account.type.value == 'current' %}
+                    <li class="account-item">
+                        <div class="account-info">
+                            <strong>Numéro de compte :</strong> {{ account.accountNumber }} <br>
+                            <strong>Solde :</strong> {{ account.balance | number_format(2, ',', ' ') }} € <br>
+                            <strong>Statut :</strong>
+                            {% if account.status.value == 'active' %}
+                                <span class="status-active">Actif</span>
+                            {% else %}
+                                <span class="status-closed">Fermé</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ path('account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="account-container">
+        <h2>Comptes d'épargne</h2>
+        <ul class="account-list">
+            {% for account in bankAccounts %}
+                {% if account.type.value == 'savings' %}
+                    <li class="account-item">
+                        <div class="account-info">
+                            <strong>Numéro de compte :</strong> {{ account.accountNumber }} <br>
+                            <strong>Solde :</strong> {{ account.balance | number_format(2, ',', ' ') }} € <br>
+                            <strong>Statut :</strong>
+                            {% if account.status.value == 'active' %}
+                                <span class="status-active">Actif</span>
+                            {% else %}
+                                <span class="status-closed">Fermé</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ path('account_transactions', { id: id, accountId: account.id }) }}" class="view-transactions-link">Voir les transactions</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .account-container {
+            margin-bottom: 50px;
+        }
+
+        .account-container h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+
+        .account-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        .account-item {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .view-transactions-link {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-transactions-link:hover {
+            background-color: #2980b9;
+        }
+
+        .account-info strong {
+            font-weight: bold;
+        }
+
+        .account-item:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        .account-item:nth-child(even) {
+            background-color: #ececec;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-closed {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}

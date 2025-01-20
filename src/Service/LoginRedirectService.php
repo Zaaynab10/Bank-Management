@@ -19,11 +19,11 @@ class LoginRedirectService
     public function redirectUserBasedOnRole(): string
     {
         if ($this->security->isGranted('ROLE_ADMIN')) {
-            return $this->router->generate('/');
+            return $this->router->generate('');
         }
 
         if ($this->security->isGranted('ROLE_CUSTOMER')) {
-            return $this->router->generate('customer_dashboard');
+            return $this->router->generate('');
         }
 
         return $this->router->generate('app_home');

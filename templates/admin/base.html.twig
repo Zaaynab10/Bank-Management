@@ -1,0 +1,99 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Administration{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="icon" href="{{ asset('images/favicon.ico') }}">
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="container">
+            <div class="logo">
+                <a href="{{ path('admin_users_list') }}">Users</a>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-content">
+        {% block body %}{% endblock %}
+    </div>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo a {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .admin-nav li {
+            margin: 0 15px;
+        }
+
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .admin-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .admin-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+
+        .admin-footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+
+</body>
+</html>

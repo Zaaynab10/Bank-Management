@@ -1,0 +1,86 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails des Transactions{% endblock %}
+
+{% block body %}
+    <h1>Détails des Transactions pour le Compte {{ accountId }}</h1>
+
+    <div class="transaction-container">
+        {% if transactions is not empty %}
+            <ul class="transaction-list">
+                {% for transaction in transactions %}
+                    <li class="transaction-item">
+                        <div class="transaction-info">
+                            <strong>Montant :</strong> {{ transaction.amount | number_format(2, ',', ' ') }} € <br>
+                            <strong>Type :</strong> {{ transaction.type.value }} <br>
+                            <strong>Statut :</strong>
+                            {% if transaction.status.value == 'successed' %}
+                                <span class="status-completed">successed</span>
+                            {% else %}
+                                <span class="status-pending">failed</span>
+                            {% endif %} <br>
+                            
+                            <strong>Source :</strong> {{ transaction.sourceAccount.accountNumber }} <br>
+                            <strong>Destination :</strong> {{ transaction.destinationAccount.accountNumber }} <br>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune transaction trouvée pour ce compte.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .transaction-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .transaction-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .transaction-item {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .transaction-info {
+            font-size: 0.95rem;
+        }
+
+        .status-completed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .transaction-item:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        .transaction-item:nth-child(even) {
+            background-color: #ececec;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}
