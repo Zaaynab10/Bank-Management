@@ -1,11 +1,10 @@
-<?php
-
+<?php 
 namespace App\Controller;
 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Enum\BankAccountStatus;
 use App\Repository\BankAccountRepository;
-use App\Repository\TransactionRepository;
-use App\Repository\UserRepository;
+use App\Service\AccountService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,51 +12,41 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminManageUsersController extends AbstractController
 {
-    #[Route('/admin/users', name: 'admin_users_list')]
-    public function listUsers(UserRepository $userRepository): Response
+    private $accountService;
+
+    public function __construct(AccountService $accountService)
     {
-        $users = $userRepository->findAll();
-        return $this->render('admin/users.html.twig', [
-            'users' => $users,
-        ]);
+        $this->accountService = $accountService;
     }
 
     #[Route('/admin/user/{id}/accounts', name: 'admin_user_accounts')]
-    public function showUserAccounts(int $id, BankAccountRepository $bankAccountRepository): Response
+    #[IsGranted('ROLE_ADMIN')] 
+    public function showUserAccounts(int $id): Response
     {
-        $bankAccounts = $bankAccountRepository->findBy(['owner' => $id]);
+        $bankAccounts = $this->accountService->getUserAccounts($id);
+
         return $this->render('admin/userAccounts.html.twig', [
             'bankAccounts' => $bankAccounts,
-            'id' => $id,  
+            'id' => $id,
         ]);
     }
 
-    #[Route('/admin/user/{id}/account/{accountId}/transactions', name: 'account_transactions')]
-public function showAccountTransactions(int $accountId, TransactionRepository $transactionRepository)
-{
-    $transactions = $transactionRepository->findBy(
-        [
-            'source_account' => $accountId
-        ],
-        ['date_time' => 'DESC']
-    );
+    #[Route('/admin/user/{id}/account/{accountId}/transactions', name: 'admin_account_transactions')]
+    #[IsGranted('ROLE_ADMIN')] 
 
-    $destinationTransactions = $transactionRepository->findBy(
-        [
-            'destination_account' => $accountId
-        ],
-        ['date_time' => 'DESC']
-    );
+    public function showAccountTransactions(int $accountId): Response
+    {
+        $transactions = $this->accountService->getAccountTransactions($accountId);
 
-    $allTransactions = array_merge($transactions, $destinationTransactions);
-
-    return $this->render('admin/userAccountTransactions.html.twig', [
-        'transactions' => $allTransactions,
-        'accountId' => $accountId,
-    ]);
-}
+        return $this->render('admin/userAccountTransactions.html.twig', [
+            'transactions' => $transactions,
+            'accountId' => $accountId,
+        ]);
+    }
 
     #[Route('/admin/account/{id}/toggle-status', name: 'toggle_bank_account_status')]
+    #[IsGranted('ROLE_ADMIN')] 
+
     public function toggleStatus(int $id, BankAccountRepository $bankAccountRepository, EntityManagerInterface $entityManager): Response
     {
         $bankAccount = $bankAccountRepository->find($id);

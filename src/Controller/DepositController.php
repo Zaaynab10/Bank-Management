@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Transaction;
-use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
 use App\Form\DepositType;
 use App\Repository\BankAccountRepository;
 use App\Service\TransactionService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -24,8 +22,7 @@ final class DepositController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager, 
         TransactionService $transactionService, 
-
-      BankAccountRepository $bankAccountRepository
+        BankAccountRepository $bankAccountRepository
 
     ): Response
     {

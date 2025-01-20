@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Transaction;
-use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
 use App\Form\WithdrawType;
 use App\Repository\BankAccountRepository;
