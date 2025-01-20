@@ -1,176 +1,53 @@
+{% extends 'base.html.twig' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sign Up{% endblock %}</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.7);
-            font-family: Arial, sans-serif;
-            color: white;
-        }
-
-        .register-page {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo img {
-            width: 180px;
-            height: auto;
-        }
-
-        .dark-mode-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-
-        .welcome-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .register-form {
-            width: 100%;
-        }
-
-        .register-form label {
-            display: block;
-            margin-bottom: 8px;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .register-form input {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .btn {
-            width: 100%;
-            background-color: #00aaff;
-            padding: 14px;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1.1rem;
-        }
-
-        .btn:hover {
-            background-color: #0077cc;
-        }
-
-        .footer-links {
-            margin-top: 20px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 20px;
-        }
-
-        .footer-links a {
-            color: #f1f1f1;
-            text-decoration: none;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        {% if app.user and 'ROLE_CUSTOMER' in app.user.roles %}
-        .register-page {
-            background-color: rgba(255, 193, 7, 0.7);
-        }
-
-        .btn {
-            background-color: #00bcd4;
-        }
-
-        .footer-links a {
-            color: #ffeb3b;
-        }
-        {% endif %}
-
-        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-        .register-page {
-            background-color: rgba(103, 58, 183, 0.7);
-        }
-
-        .btn {
-            background-color: #3f51b5;
-        }
-
-        .footer-links a {
-            color: #673ab7;
-        }
-        {% endif %}
-    </style>
-</head>
-<body>
-
-{% block body %}
-<div class="register-page">
-    <div class="logo">
-        <a href="#">
-            <img src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
-        </a>
-    </div>
-
-    <div class="dark-mode-switch">
-        <img id="themeIcon" src="{{ asset('images/sun.svg') }}" alt="Theme Icon"/>
-    </div>
-
-    <h1 class="welcome-title">Welcome, Create Your Account</h1>
-
-    {{ form_start(registrationForm, { 'attr': { 'class': 'register-form' }, 'method': 'post' }) }}
-    {{ form_row(registrationForm.firstName, { 'label': 'First Name' }) }}
-    {{ form_row(registrationForm.lastName, { 'label': 'Last Name' }) }}
-    {{ form_row(registrationForm.email, { 'label': 'Email' }) }}
-    {{ form_row(registrationForm.plainPassword, { 'label': 'Password' }) }}
-    {{ form_row(registrationForm.phone, { 'label': 'Phone Number' }) }}
-
-    <button class="btn btn-green" type="submit">
-        <img src="{{ asset('images/arrow-circle-right.svg') }}" alt="Right Arrow">
-    </button>
-    {{ form_end(registrationForm) }}
-
-    <div class="footer-links">
-        <a href="{{ path('app_login') }}">Already have an account? Log in</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Privacy Policy</a>
-    </div>
-</div>
+{% block title %}Sign Up
 {% endblock %}
 
+{% block body %}
+	<div
+		class="register-page">
+		<!-- Video Background -->
+		<video autoplay loop muted playsinline class="background-video">
+			<source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
+
+		<!-- Logo -->
+		<div class="logo">
+			<a href="#">
+				<img class="bank-logo" src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
+			</a>
+		</div>
+
+		<!-- Dark Mode Switch -->
+		<div class="dark-mode-switch">
+			<img id="themeIcon" src="{{ asset('images/sun.svg') }}" alt="Theme Icon"/>
+		</div>
+
+		<!-- Title -->
+		<h1 class="welcome-title">Welcome, Create Your Account</h1>
+
+		<!-- Registration Form -->
+		{{ form_start(registrationForm, { 'attr': { 'class': 'register-form' }, 'method': 'post' }) }}
+		{{ form_row(registrationForm.firstName, { 'label': 'First Name' }) }}
+		{{ form_row(registrationForm.lastName, { 'label': 'Last Name' }) }}
+		{{ form_row(registrationForm.email, { 'label': 'Email' }) }}
+		{{ form_row(registrationForm.plainPassword, { 'label': 'Password' }) }}
+		{{ form_row(registrationForm.phone, { 'label': 'Phone Number' }) }}
+
+		<button class="btn btn-green" type="submit">
+			<img src="{{ asset('images/arrow-circle-right.svg') }}" alt="Right Arrow">
+		</button>
+		{{ form_end(registrationForm) }}
+
+		<!-- Footer Links -->
+		<div class="footer-links">
+			<a href="{{ path('app_login') }}">Already have an account? Log in</a>
+		</div>
+		<div class="footer-links">
+			<a href="#">Terms of Use</a>
+			|
+			<a href="#">Privacy Policy</a>
+		</div>
+	</div>
+{% endblock %}

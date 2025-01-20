@@ -7,7 +7,7 @@
 .login-page {
     position: relative;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -39,6 +39,11 @@
 }
 
 /* Logo */
+.logo {
+    margin-block: 57px;
+    text-align: center;
+}
+
 .logo img {
     max-width: 200px;
 }

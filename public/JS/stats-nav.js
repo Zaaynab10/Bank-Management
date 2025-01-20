@@ -4,16 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Remove active class from all sections
-            detailsSections.forEach(section => section.classList.remove('active'));
-
-            // Get the target ID from the button's data attribute
+            // Identifier la section cible
             const targetId = button.getAttribute('data-target');
             const targetSection = document.getElementById(targetId);
 
-            // Add active class to the corresponding section
+            // Réinitialiser toutes les sections
+            detailsSections.forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none'; // Masquer toutes les sections
+            });
+
+            // Afficher uniquement la section cible
             if (targetSection) {
                 targetSection.classList.add('active');
+                targetSection.style.display = 'block'; // Afficher la section cible
             }
         });
     });
