@@ -1,0 +1,10 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+admin_add_user:
+    path: /admin/add-user
+    controller: App\Controller\AdminDashController::addUser
+    methods: POST
