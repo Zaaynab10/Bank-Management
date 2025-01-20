@@ -15,7 +15,7 @@
 		<!-- Navigation -->
 		<nav>
 			<div class="logo">
-				<a href="/admin/dash">
+				<a href="{{ path('app_homepage') }}">
 					<img class="bank-logo" src="{{ asset('images/logo-clair.png') }}" alt="Bank Logo">
 				</a>
 			</div>
@@ -67,13 +67,13 @@
 				<div class="user-main">
 					<section class="user-accounts stats-box collapsible-header" data-type="accounts">
 						<h2>
-							<a href="{{ path('admin_user_accounts') }}">Comptes bancaires</a>
+							<a href="{{ path('admin_user_accounts', { id: user.id }) }}">Comptes bancaires</a>
 						</h2>
 					</section>
 
 					<section class="user-transactions stats-box collapsible-header" data-type="transactions">
 						<h2>
-							<a href="{{ path('account_transactions') }}">Transactions</a>
+							<a href="{{ path('admin_account_transactions', { id: accountId }) }}">Transactions</a>
 						</h2>
 					</section>
 				</div>
