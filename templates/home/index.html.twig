@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Accueil{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+</head>
+
+
+{% block body %}
+<div class="homepage">
+    <!-- Background video -->
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="{{ asset('videos/light-background.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Welcome Section -->
+    <header class="welcome-section">
+        <h1>Bienvenue sur votre banque en ligne</h1>
+        <p>Gérez vos finances en toute simplicité, rapidité et sécurité.</p>
+        <div class="cta-buttons">
+            <a href="{{ path('app_login') }}" class="btn">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn btn-alt">Créer un compte</a>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Nos Services</h2>
+        <div class="features">
+            <div class="feature">
+                <img src="{{ asset('images/transfer.svg') }}" alt="Virements">
+                <h3>Virements rapides</h3>
+                <p>Envoyez et recevez de l'argent instantanément.</p>
+            </div>
+            <div class="feature">
+                <img src="{{ asset('images/savings.svg') }}" alt="Épargne">
+                <h3>Comptes d'épargne</h3>
+                <p>Boostez vos économies avec nos taux compétitifs.</p>
+            </div>
+            <div class="feature">
+                <img src="{{ asset('images/support.svg') }}" alt="Support">
+                <h3>Assistance 24/7</h3>
+                <p>Notre équipe est disponible pour vous aider à tout moment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2>Ce que disent nos clients</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Une expérience utilisateur exceptionnelle. Tout est rapide et simple."</p>
+                <span>- Marie Dupont</span>
+            </div>
+            <div class="testimonial">
+                <p>"Je peux enfin gérer mes finances sans stress. Merci pour ce service incroyable !"</p>
+                <span>- Jean Martin</span>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
