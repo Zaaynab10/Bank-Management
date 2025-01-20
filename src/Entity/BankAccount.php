@@ -165,6 +165,13 @@ public function canDeposit(float $amount): bool
         return $this->transactions_received;
     }
 
+
+    public function isActive(): bool
+{
+    return $this->status === BankAccountStatus::ACTIVE;
+}
+
+
     public function addTransactionsReceived(Transaction $transactionsReceived): static
     {
         if (!$this->transactions_received->contains($transactionsReceived)) {
