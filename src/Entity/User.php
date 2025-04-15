@@ -165,7 +165,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeBeneficiary(Beneficiary $beneficiary): static
     {
         if ($this->beneficiary->removeElement($beneficiary)) {
-            // set the owning side to null (unless already changed)
             if ($beneficiary->getMember() === $this) {
                 $beneficiary->setMember(null);
             }
