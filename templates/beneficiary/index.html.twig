@@ -6,7 +6,6 @@
 <body>
     <h1>Ajouter un bénéficiaire</h1>
 
-    <!-- Affiche les messages flash pour les erreurs ou succès -->
     {% for message in app.flashes('error') %}
         <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
@@ -14,7 +13,6 @@
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
 
-    <!-- Formulaire pour ajouter le bénéficiaire -->
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <button type="submit">Ajouter</button>
