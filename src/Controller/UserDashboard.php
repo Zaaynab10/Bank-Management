@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class UserDashboard extends AbstractController
@@ -20,7 +21,8 @@ class UserDashboard extends AbstractController
     #[Route('/user/accounts', name: 'user_accounts')]
     #[IsGranted('ROLE_CUSTOMER')] 
 
-    public function showUserAccounts(): Response
+    public function showUserAccounts(
+    ): Response
     {
         $user = $this->getUser();
         $bankAccounts = $this->accountService->getUserAccounts($user);
@@ -33,10 +35,12 @@ class UserDashboard extends AbstractController
     #[Route('/user/account/{accountId}/transactions', name: 'user_account_transactions')]
     #[IsGranted('ROLE_CUSTOMER')] 
 
-    public function showAccountTransactions(int $accountId): Response
+    public function showAccountTransactions(int $accountId ,  SessionInterface $session): Response
     {
         $transactions = $this->accountService->getAccountTransactions($accountId);
 
+        $session->set('bank_account_id', $accountId);
+     
         return $this->render('user/accountTransactions.html.twig', [
             'transactions' => $transactions,
             'accountId' => $accountId,

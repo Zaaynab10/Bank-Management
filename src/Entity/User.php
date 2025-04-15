@@ -42,9 +42,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'owner')]
     private Collection $bankAccounts;
 
+    /**
+     * @var Collection<int, Beneficiary>
+     */
+    #[ORM\OneToMany(targetEntity: Beneficiary::class, mappedBy: 'member', orphanRemoval: true)]
+    private Collection $beneficiary;
+
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
+        $this->beneficiary = new ArrayCollection();
     }
 
     public function getFirstName(): ?string {
@@ -80,7 +87,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): ?string {
         return $this->email;
     }
-
+    public function getName(): ?string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+    
     public function setEmail(string $email): static {
         $this->email = $email;
         return $this;
@@ -130,6 +141,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $bankAccount->setOwner(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Beneficiary>
+     */
+    public function getBeneficiary(): Collection
+    {
+        return $this->beneficiary;
+    }
+
+    public function addBeneficiary(Beneficiary $beneficiary): static
+    {
+        if (!$this->beneficiary->contains($beneficiary)) {
+            $this->beneficiary->add($beneficiary);
+            $beneficiary->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(Beneficiary $beneficiary): static
+    {
+        if ($this->beneficiary->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getMember() === $this) {
+                $beneficiary->setMember(null);
+            }
+        }
+
         return $this;
     }
 

@@ -2,28 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Transaction;
+use App\Entity\Beneficiary;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WithdrawType extends AbstractType
+class BeneficiaryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Ajouter uniquement le montant à retirer
         $builder
-            ->add('amount', IntegerType::class, [
-                'label' => 'Montant à retirer',
-                'attr' => ['min' => 1],  
-            ]);
+            ->add('name')
+            ->add('bankAccountNumber');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Transaction::class, 
+            'data_class' => Beneficiary::class,
         ]);
     }
 }

@@ -17,9 +17,12 @@ final class BankAccountController extends AbstractController
 {
     #[Route('/bank/account/')]
     #[Route('/bank/account/{id}', name: 'app_bank_account')]
-    public function index(int $id, BankAccountRepository $bankAccountRepository): Response
-    {
+    public function index(
+        int $id,
+        BankAccountRepository $bankAccountRepository,
+    ): Response {
         $bankAccount = $bankAccountRepository->find($id);
+        $balance = $bankAccount->getBalance();
 
         if ($bankAccount === null) {
             throw $this->createNotFoundException();
@@ -29,18 +32,22 @@ final class BankAccountController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $balance = $bankAccount->getBalance();
+     
 
+    
         return $this->json([
-            'balance' => $balance, 
-            'type' => $bankAccount->getType()->value, 
-            'id' => $bankAccount->getId()
+            'balance' => $balance,
+            'type' => $bankAccount->getType()->value,
+            'id' => $bankAccount->getId(),
         ]);
     }
 
     #[Route('/bank/accounts/create', name: 'app_create_bank_account')]
-    public function create(Request $request, EntityManagerInterface $entityManager, BankAccountRepository $bankAccountRepository): Response
-    {
+    public function create(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        BankAccountRepository $bankAccountRepository
+    ): Response {
         $bankAccounts = $bankAccountRepository->findBy(['owner' => $this->getUser()]);
         if (count($bankAccounts) >= 5) {
             throw $this->createAccessDeniedException('You can only have up to 5 bank accounts');
@@ -90,3 +97,4 @@ final class BankAccountController extends AbstractController
         return false;
     }
 }
+

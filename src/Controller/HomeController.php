@@ -15,8 +15,8 @@ class HomeController extends AbstractController
     {
         if ($security->getUser()) {
             return $this->redirectToRoute('user_accounts'); 
+        }
 
         return $this->render('home/index.html.twig');
-    }
 }
 }

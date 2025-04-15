@@ -17,7 +17,7 @@ class BankAccount
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bankAccounts')]
+    #[ORM\ManyToOne(inversedBy: 'bankAccounts', fetch: 'EAGER')] // Activation du chargement immédiat
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
@@ -143,7 +143,6 @@ class BankAccount
         return true;
     }
 
-
     public function removeTransactionsIssued(Transaction $transactionsIssued): static
     {
         if ($this->transactions_issued->removeElement($transactionsIssued)) {
@@ -160,12 +159,10 @@ class BankAccount
         return $this->transactions_received;
     }
 
-
     public function isActive(): bool
-{
-    return $this->status === BankAccountStatus::ACTIVE;
-}
-
+    {
+        return $this->status === BankAccountStatus::ACTIVE;
+    }
 
     public function addTransactionsReceived(Transaction $transactionsReceived): static
     {

@@ -34,7 +34,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Récupère un utilisateur avec ses comptes bancaires par ID.
      *
      * @param int $id
      * @return User|null
@@ -42,8 +41,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findUserWithAccounts(int $id): ?User
     {
         return $this->createQueryBuilder('u')
-            ->leftJoin('u.bankAccounts', 'b') // Relation avec les comptes bancaires
-            ->addSelect('b') // Inclut les comptes dans le résultat
+            ->leftJoin('u.bankAccounts', 'b') 
+            ->addSelect('b') 
             ->andWhere('u.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
